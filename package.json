@@ -1,0 +1,38 @@
+{
+  "name": "expressjs-simple-backend-for-unity",
+  "version": "1.0.0",
+  "description": "A prototype with sample http protocols for simple games. It is a test project with models such as user item and clan.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MertOzpolat/ExpressJS-Simple-Backend-For-Unity.git"
+  },
+  "keywords": [
+    "expressjs",
+    "unity",
+    "crud",
+    "gaming",
+    "backend"
+  ],
+  "author": "Mert Ozpolat & Zafer Ozkoprulu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MertOzpolat/ExpressJS-Simple-Backend-For-Unity/issues"
+  },
+  "homepage": "https://github.com/MertOzpolat/ExpressJS-Simple-Backend-For-Unity#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
