@@ -13,9 +13,9 @@ const app = express();
 app.use(express.json());
 const PORT = process.env.PORT;
 
-app.use("/api",routers)
+app.use("/api", routers)
 app.use(customErrorHandler);
-app.use(express.static(path.join(__dirname,"public")));
-app.listen(PORT,()=>{
-    console.log("app started on "+process.env.PORT);
+app.use(express.static(path.join(__dirname, "public")));
+app.listen(PORT, () => {
+    console.log("app started on " + process.env.PORT);
 })

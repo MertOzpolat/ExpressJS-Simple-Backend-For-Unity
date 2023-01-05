@@ -6,16 +6,19 @@ const ClanSchema = new Schema({
         type: String,
         required: [true, "please provide a name"]
     },
-    managers: {
-        type: String,
-    },
+    managers: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "User"
+        }
+    ],
     users: [
         {
             type: mongoose.Schema.ObjectId,
             ref: "User"
         }
     ],
-    clan_image: {
+    image: {
         type: String,
         default: "default.jpg"
     },
