@@ -16,4 +16,4 @@ const ItemSchema = new Schema({
 });
 
 
-module.exports = mongoose.model("Clan", ItemSchema);
+module.exports = mongoose.model("Item", ItemSchema);
