@@ -38,9 +38,15 @@ const ClanSchema = new Schema({
         }
     ]
 });
-ClanSchema.post("save",async function () {
+ClanSchema.post("save", async function () {
     const user = await User.findById(this.managers[0]);
     user.clan = this._id;
-    await user.save(); 
-})
+    await user.save();
+});
+ClanSchema.post("remove", async function () {
+    await User.updateMany({
+        clan: this._id
+    }, 
+    { "$set": { "clan": undefined } });
+});
 module.exports = mongoose.model("Clan", ClanSchema);

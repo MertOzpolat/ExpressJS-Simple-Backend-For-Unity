@@ -4,11 +4,9 @@ const asyncErrorWrapper = require('express-async-handler');
 
 const create = asyncErrorWrapper(async (req, res, next) => {
     const currentUserId = req.user.id;
-    const managers=[];
+    const managers = [];
     managers.push(currentUserId);
-    const {
-        name,
-        image, } = req.body;
+    const { name, image } = req.body;
     const clan = await Clan.create({
         name,
         image,
@@ -17,7 +15,7 @@ const create = asyncErrorWrapper(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: clan,
-        createdBy:currentUserId
+        createdBy: currentUserId
     });
 });
 const getAll = asyncErrorWrapper(async (req, res, next) => {
@@ -42,11 +40,12 @@ const update = asyncErrorWrapper(async (req, res, next) => {
     });
 });
 const remove = asyncErrorWrapper(async (req, res, next) => {
-    const { id } = req.params;
-    await Clan.findByIdAndDelete(id);
+    const clan = req.clan;
+    await clan.remove();
+
     res.status(200).json({
         success: true,
-        data: "deleted"
+        data: clan
     });
 });
 
