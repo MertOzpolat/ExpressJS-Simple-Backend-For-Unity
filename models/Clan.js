@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 const Schema = mongoose.Schema;
 
 const ClanSchema = new Schema({
@@ -37,5 +38,9 @@ const ClanSchema = new Schema({
         }
     ]
 });
-
+ClanSchema.post("save",async function () {
+    const user = await User.findById(this.managers[0]);
+    user.clan = this._id;
+    await user.save(); 
+})
 module.exports = mongoose.model("Clan", ClanSchema);

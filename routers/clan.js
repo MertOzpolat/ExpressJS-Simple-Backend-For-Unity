@@ -1,11 +1,13 @@
 const express = require("express");
-const { addClan, getAllClans, updateClan, deleteClan } = require("../controllers/clan");
+const { create, getAll, update, remove } = require("../controllers/clan");
+const {getAccessToRoute} = require('../middlewares/authorization/auth');
+const { checkClanExist } = require("../middlewares/clan/clanCheck");
 const router = express.Router();
 
 
-router.post("/addclan", addClan);
-router.put("/:id/update", updateClan);
-router.delete("/:id/delete", deleteClan);
-router.get("/", getAllClans);
+router.post("/create",[getAccessToRoute,checkClanExist], create);
+router.put("/:id/update",getAccessToRoute, update);
+router.delete("/:id/remove",getAccessToRoute, remove);
+router.get("/", getAll);
 
 module.exports = router;

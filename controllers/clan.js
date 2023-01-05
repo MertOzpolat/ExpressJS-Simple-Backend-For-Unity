@@ -2,27 +2,32 @@ const Clan = require('../models/Clan');
 const CustomError = require('../helpers/error/CustomError');
 const asyncErrorWrapper = require('express-async-handler');
 
-const addClan = asyncErrorWrapper(async (req, res, next) => {
+const create = asyncErrorWrapper(async (req, res, next) => {
+    const currentUserId = req.user.id;
+    const managers=[];
+    managers.push(currentUserId);
     const {
         name,
         image, } = req.body;
     const clan = await Clan.create({
         name,
         image,
+        managers
     });
     res.status(200).json({
         success: true,
-        data: clan
+        data: clan,
+        createdBy:currentUserId
     });
 });
-const getAllClans = asyncErrorWrapper(async (req, res, next) => {
+const getAll = asyncErrorWrapper(async (req, res, next) => {
     const clan = await Clan.find();
     return res.status(200).json({
         success: true,
         data: clan
     });
 });
-const updateClan = asyncErrorWrapper(async (req, res, next) => {
+const update = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     const { name, image } = req.body;
     let clan = await Clan.findById(id);
@@ -36,7 +41,7 @@ const updateClan = asyncErrorWrapper(async (req, res, next) => {
 
     });
 });
-const deleteClan = asyncErrorWrapper(async (req, res, next) => {
+const remove = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     await Clan.findByIdAndDelete(id);
     res.status(200).json({
@@ -47,8 +52,8 @@ const deleteClan = asyncErrorWrapper(async (req, res, next) => {
 
 
 module.exports = {
-    addClan,
-    getAllClans,
-    updateClan,
-    deleteClan
+    create,
+    update,
+    remove,
+    getAll
 }

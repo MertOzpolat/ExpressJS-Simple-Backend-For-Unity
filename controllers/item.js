@@ -2,7 +2,7 @@ const Item = require('../models/Item');
 const CustomError = require('../helpers/error/CustomError');
 const asyncErrorWrapper = require('express-async-handler');
 
-const addItem = asyncErrorWrapper(async (req,res,next)  => {
+const create = asyncErrorWrapper(async (req,res,next)  => {
     const {name,image,info} = req.body;
     const item = await Item.create({
         name,
@@ -14,14 +14,14 @@ const addItem = asyncErrorWrapper(async (req,res,next)  => {
         data:item
     });
 });
-const getAllItems = asyncErrorWrapper(async (req, res, next) => {
+const getAll = asyncErrorWrapper(async (req, res, next) => {
     const item = await Item.find();
     return res.status(200).json({
         success: true,
         data: item
     });
 });
-const updateItem= asyncErrorWrapper(async (req,res,next)  => {
+const update= asyncErrorWrapper(async (req,res,next)  => {
     const {id} = req.params;
     const {name,image,info} = req.body;
     let item = await Item.findById(id);
@@ -34,7 +34,7 @@ const updateItem= asyncErrorWrapper(async (req,res,next)  => {
         data:item
     });
 });
-const deleteItem= asyncErrorWrapper(async (req,res,next)  => {
+const remove= asyncErrorWrapper(async (req,res,next)  => {
     const {id} = req.params;
     await Item.findByIdAndDelete(id);
     res.status(200).json({
@@ -43,5 +43,5 @@ const deleteItem= asyncErrorWrapper(async (req,res,next)  => {
     });
 });
 module.exports = {
-    addItem, getAllItems,deleteItem,updateItem
+    create, getAll,remove,update
 }
