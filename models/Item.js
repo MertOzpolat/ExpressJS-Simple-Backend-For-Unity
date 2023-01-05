@@ -6,11 +6,11 @@ const ItemSchema = new Schema({
         type: String,
         required: [true, "please provide a name"]
     },
-    profile_image: {
+    image: {
         type: String,
         default: "default.jpg"
     },
-    itemInfo: {
+    info: {
         type: String
     }
 });
