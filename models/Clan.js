@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
-const crypto = require('crypto');
 
 const ClanSchema = new Schema({
     name: {

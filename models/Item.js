@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
-const crypto = require('crypto');
 
 const ItemSchema = new Schema({
     name: {
@@ -17,7 +14,6 @@ const ItemSchema = new Schema({
         type: String
     }
 });
-
 
 
 module.exports = mongoose.model("Clan", ItemSchema);
