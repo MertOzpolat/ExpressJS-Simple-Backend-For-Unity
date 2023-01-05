@@ -121,6 +121,25 @@ const editDetails = asyncErrorWrapper(async (req, res, next) => {
         message: user
     });
 });
+const joinClan = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findByIdAndUpdate(req.user.id, {clan:req.clan.id}, {
+        new: true,
+        runValidators: true
+    });
+    return res.status(200).json({
+        success: true,
+        message: user
+    });
+});
+const addFriend = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    user.friends.push(req.params.id);
+    await user.save();
+    return res.status(200).json({
+        success: true,
+        message: user
+    });
+});
 const getUser = (req, res, next) => {
     res.json({
         success: true,
@@ -131,5 +150,5 @@ const getUser = (req, res, next) => {
     })
 }
 module.exports = {
-    register, getUser, login, logout, imageUpload, forgotPassword, resetPassword, editDetails
+    register, getUser, login, logout, imageUpload, forgotPassword, resetPassword, editDetails,joinClan,addFriend
 }
