@@ -39,6 +39,18 @@ const update = asyncErrorWrapper(async (req, res, next) => {
 
     });
 });
+const addManager = asyncErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const clan = await Clan.findById(req.clanId);
+    clan.managers.push(id);
+    await clan.save();
+    res.status(200).json({
+        success: true,
+        data: clan,
+        message: clan
+
+    });
+});
 const remove = asyncErrorWrapper(async (req, res, next) => {
     const clan = req.clan;
     await clan.remove();
@@ -54,5 +66,6 @@ module.exports = {
     create,
     update,
     remove,
-    getAll
+    getAll,
+    addManager
 }
