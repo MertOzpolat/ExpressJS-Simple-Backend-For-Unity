@@ -122,7 +122,7 @@ const editDetails = asyncErrorWrapper(async (req, res, next) => {
     });
 });
 const joinClan = asyncErrorWrapper(async (req, res, next) => {
-    const user = await User.findByIdAndUpdate(req.user.id, {clan:req.clan.id}, {
+    const user = await User.findByIdAndUpdate(req.user.id, { clan: req.clan.id }, {
         new: true,
         runValidators: true
     });
@@ -140,6 +140,22 @@ const addFriend = asyncErrorWrapper(async (req, res, next) => {
         message: user
     });
 });
+const deleteFriend = asyncErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user.id);
+    const index = user.friends.indexOf(id);
+
+    if (index === -1) {
+        return next(new CustomError("You have not a friend like this"));
+    }
+    user.friends.splice(index, 1);
+    await user.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Deleted friend"
+    });
+});
 const getUser = (req, res, next) => {
     res.json({
         success: true,
@@ -150,5 +166,15 @@ const getUser = (req, res, next) => {
     })
 }
 module.exports = {
-    register, getUser, login, logout, imageUpload, forgotPassword, resetPassword, editDetails,joinClan,addFriend
+    register,
+    getUser,
+    login,
+    logout,
+    imageUpload,
+    forgotPassword,
+    resetPassword,
+    editDetails,
+    joinClan,
+    addFriend,
+    deleteFriend
 }
