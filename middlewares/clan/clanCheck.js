@@ -21,6 +21,14 @@ const checkClanExists = asyncErrorWrapper(async (req, res, next) => {
     req.clan = clan;
     next();
 });
+const hasJoinedClan = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    console.log(user.clan)
+    if (user.clan === undefined) {
+        return next(new CustomError("You have not already joined a clan"));
+    }
+    next();
+});
 const isClanMember = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     const userForManager = await User.findById(id);
@@ -32,4 +40,4 @@ const isClanMember = asyncErrorWrapper(async (req, res, next) => {
     next();
 })
 
-module.exports = { checkClanPermission, checkClanExists, isClanMember };
+module.exports = { checkClanPermission, checkClanExists, isClanMember, hasJoinedClan };

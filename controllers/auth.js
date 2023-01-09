@@ -1,8 +1,10 @@
 const User = require('../models/User');
+const Item = require('../models/Item');
 const asyncErrorWrapper = require("express-async-handler");
 const { sendJwtToClient } = require('../helpers/authorization/tokenHelpers');
 const { validateUserInput, comparePassword } = require('../helpers/input/inputHelpers');
 const CustomError = require('../helpers/error/CustomError');
+const Clan = require('../models/Clan');
 
 const register = asyncErrorWrapper(async (req, res, next) => {
     const { name, email, password, role } = req.body;
@@ -131,6 +133,21 @@ const joinClan = asyncErrorWrapper(async (req, res, next) => {
         message: user
     });
 });
+const exitClan = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
+
+    if (user.clan === "") {
+        return next(new CustomError("You have not a clan like this"));
+    }
+    user.clan = undefined;
+    await user.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Exit clan"
+    });
+});
 const addFriend = asyncErrorWrapper(async (req, res, next) => {
     const user = await User.findById(req.user.id);
     user.friends.push(req.params.id);
@@ -163,8 +180,35 @@ const getUser = (req, res, next) => {
             id: req.user.id,
             name: req.user.name
         }
-    })
-}
+    });
+};
+const addItem = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    const item = await Item.findById(req.params.id);
+    user.inventory.push(item);
+    await user.save();
+    return res.status(200).json({
+        success: true,
+        message: user
+    });
+});
+const removeItem = asyncErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user.id);
+    const index = user.inventory.indexOf(id);
+
+    if (index === -1) {
+        return next(new CustomError("You have not an item like this"));
+    }
+    user.inventory.splice(index, 1);
+    await user.save();
+
+    return res.status(200).json({
+        success: true,
+        message: "Deleted item"
+    });
+});
+
 module.exports = {
     register,
     getUser,
@@ -176,5 +220,8 @@ module.exports = {
     editDetails,
     joinClan,
     addFriend,
-    deleteFriend
+    deleteFriend,
+    addItem,
+    removeItem,
+    exitClan
 }
