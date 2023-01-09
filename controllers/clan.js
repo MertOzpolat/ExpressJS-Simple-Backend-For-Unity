@@ -25,6 +25,13 @@ const getAll = asyncErrorWrapper(async (req, res, next) => {
         data: clan
     });
 });
+const getSingleClan = asyncErrorWrapper(async (req, res, next) => {
+    const clan = await Clan.findById(req.params.id);
+    return res.status(200).json({
+        success: true,
+        data: clan
+    });
+});
 const update = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     const { name, image } = req.body;
@@ -51,6 +58,32 @@ const addManager = asyncErrorWrapper(async (req, res, next) => {
 
     });
 });
+const removeManager = asyncErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const clan = await Clan.findById(req.clanId);
+    const index = clan.managers.indexOf(id);
+    clan.managers.splice(index,1);
+    await clan.save();
+    res.status(200).json({
+        success: true,
+        data: clan,
+        message: clan
+
+    });
+});
+const removeUser = asyncErrorWrapper(async (req, res, next) => {
+    const { id } = req.params;
+    const clan = await Clan.findById(req.clanId);
+    const index = clan.users.indexOf(id);
+    clan.users.splice(index,1);
+    await clan.save();
+    res.status(200).json({
+        success: true,
+        data: clan,
+        message: clan
+
+    });
+});
 const remove = asyncErrorWrapper(async (req, res, next) => {
     const clan = req.clan;
     await clan.remove();
@@ -67,5 +100,7 @@ module.exports = {
     update,
     remove,
     getAll,
-    addManager
+    addManager,
+    removeManager,
+    removeUser,getSingleClan
 }

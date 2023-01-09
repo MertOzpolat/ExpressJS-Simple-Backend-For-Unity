@@ -192,6 +192,18 @@ const addItem = asyncErrorWrapper(async (req, res, next) => {
         message: user
     });
 });
+const changeBalance = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    if(user.balance + req.body.balance <0){
+        return next(new CustomError("Balance can not be negative",400));
+    }
+    user.balance+=req.body.balance;
+    await user.save();
+    return res.status(200).json({
+        success: true,
+        message: user
+    });
+});
 const removeItem = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;
     const user = await User.findById(req.user.id);
@@ -223,5 +235,6 @@ module.exports = {
     deleteFriend,
     addItem,
     removeItem,
-    exitClan
+    exitClan,
+    changeBalance
 }
