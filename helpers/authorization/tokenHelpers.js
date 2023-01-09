@@ -9,7 +9,7 @@ const sendJwtToClient = (user, res) => {
         }).json({
             success: true,
             access_token: token,
-            data: user
+            user: user
         });
 }
 const isTokenIncluded = (req) => {
