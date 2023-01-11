@@ -53,12 +53,12 @@ const UserSchema = new Schema({
         default: 0
     },
     clan: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Clan"
     },
     friends: [
         {
-            type: mongoose.Schema.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }
     ],
@@ -68,7 +68,7 @@ const UserSchema = new Schema({
     },
     inventory: [
         {
-            type: mongoose.Schema.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Item"
         }
     ]

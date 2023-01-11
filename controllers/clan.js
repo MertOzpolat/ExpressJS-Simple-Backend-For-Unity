@@ -27,10 +27,7 @@ const getAll = asyncErrorWrapper(async (req, res, next) => {
 });
 const getSingleClan = asyncErrorWrapper(async (req, res, next) => {
     const clan = await Clan.findById(req.params.id);
-    return res.status(200).json({
-        success: true,
-        data: clan
-    });
+    return res.status(200).json(clan);
 });
 const update = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params;

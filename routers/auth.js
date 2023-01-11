@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login, getUser, imageUpload, logout, forgotPassword, resetPassword, editDetails, joinClan, addFriend, deleteFriend, addItem, removeItem, exitClan,changeBalance } = require('../controllers/auth');
+const { register, login, getUser, imageUpload,getItems, logout, forgotPassword, resetPassword, editDetails, joinClan, addFriend, deleteFriend, addItem, removeItem, exitClan,changeBalance ,getFriends} = require('../controllers/auth');
 const { getAccessToRoute } = require('../middlewares/authorization/auth');
 const { checkClanExists, checkClanPermission, hasJoinedClan } = require("../middlewares/clan/clanCheck");
 const { checkUserExist } = require("../middlewares/database/databaseErrorHelpers");
@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get("/logout", getAccessToRoute, logout);
 router.get("/profile", getAccessToRoute, getUser);
+router.get("/friends", getAccessToRoute, getFriends);
+router.get("/items", getAccessToRoute, getItems);
 
 router.post("/register", register);
 router.post("/login", login);

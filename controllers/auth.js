@@ -49,6 +49,20 @@ const imageUpload = asyncErrorWrapper(async (req, res, next) => {
             message: user
         });
 });
+const getFriends = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id).populate('friends');
+    const friends = user.friends
+    res.status(200)
+        .json(
+            friends);
+});
+const getItems = asyncErrorWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id).populate('inventory');
+    const items = user.inventory
+    res.status(200)
+        .json(
+            items);
+});
 const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
     const resetEmail = req.body.email;
     const user = await User.findOne({ email: resetEmail }).select("+password");
@@ -236,5 +250,7 @@ module.exports = {
     addItem,
     removeItem,
     exitClan,
-    changeBalance
+    changeBalance,
+    getFriends,
+    getItems
 }
